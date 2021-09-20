@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.techleads.app.model.AndroidInfo;
 import com.techleads.app.model.DynamicLinkInfo;
 import com.techleads.app.model.IosInfo;
@@ -30,7 +33,6 @@ public class MyRunner implements CommandLineRunner {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 
-		
 		MyRequest myReq = setRequestData();
 
 		HttpEntity<MyRequest> requestEntity = new HttpEntity<>(myReq, headers);
@@ -39,6 +41,18 @@ public class MyRunner implements CommandLineRunner {
 		if (statusCode != null) {
 			String body = exchange.getBody();
 			System.out.println(body);
+
+			ObjectNode node = new ObjectMapper().readValue(body, ObjectNode.class);
+
+			if (node.has("shortLink")) {
+				JsonNode jsonNode = node.get("shortLink");
+				System.out.println(jsonNode.asText());
+			}
+			if (node.has("previewLink")) {
+				JsonNode jsonNode = node.get("previewLink");
+				System.out.println(jsonNode.asText());
+			}
+
 		}
 
 	}
@@ -55,7 +69,7 @@ public class MyRunner implements CommandLineRunner {
 		dynamicLinkInfo.setAndroidInfo(adInfo);
 		dynamicLinkInfo.setLink("https://play.google.com/store/apps/details?id=com.accurate.live.weather.forecast.pro");
 		dynamicLinkInfo.setDomainUriPrefix("https://mycustom.page.link");
-		
+
 		iosInfo.setIosBundleId("com.test.app");
 
 		suffix.setOption("SHORT");
