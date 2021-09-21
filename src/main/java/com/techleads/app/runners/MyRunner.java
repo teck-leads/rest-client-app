@@ -65,12 +65,12 @@ public class MyRunner implements CommandLineRunner {
 		IosInfo iosInfo = new IosInfo();
 
 		AndroidInfo adInfo = new AndroidInfo();
-		adInfo.setAndroidPackageName("com.test.app");
+		adInfo.setAndroidPackageName("com.app.test");
 		dynamicLinkInfo.setAndroidInfo(adInfo);
 		dynamicLinkInfo.setLink("https://play.google.com/store/apps/details?id=com.accurate.live.weather.forecast.pro");
 		dynamicLinkInfo.setDomainUriPrefix("https://mycustom.page.link");
 
-		iosInfo.setIosBundleId("com.test.app");
+		iosInfo.setIosBundleId("com.app.test");
 
 		suffix.setOption("SHORT");
 
